@@ -38,12 +38,13 @@
             <br />
 
             <form name="orderForm" novalidate>
-                <label>Customer Birthday</label>
-                <input name="customerBirthday" type="date" ng-model="CustomerBirthday" />
-                <span ng-show="orderForm.customerBirthday.$error.date" class="label label-danger">Invalid input.</span>
+
+                <div ng-show="InvalidForm || !orderForm.$valid" class="label label-danger">Please check your input!</div>
                 <br />
 
-                <div ng-show="InvalidForm" class="alert alert-danger">Please select a product first!</div>
+                <label>Customer Birthday</label>
+                <input name="customerBirthday" type="date" ng-model="CustomerBirthday" />
+                <br /><br /><br />
 
                 <table class="table table-condensed table-bordered">
                     <thead>
@@ -60,8 +61,6 @@
                             <td>{{product.Price}}</td>
                             <td>
                                 <input name="quantity_{{$index}}" type="number" ng-model="product.Quantity" min="1" max="9999" style="width: 50px;" required />
-                                <span ng-show="orderForm.quantity_{{$index}}.$error.required" class="label label-danger">Required.</span>
-                                <span ng-show="orderForm.quantity_{{$index}}.$error.number" class="label label-danger">Invalid input.</span>
                             </td>
                             <td>
                                 <input type="button" ng-click="RemoveFromCart(product)" value="Remove from cart" />

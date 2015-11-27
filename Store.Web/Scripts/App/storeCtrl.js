@@ -30,19 +30,26 @@ app.controller("StoreController", ["$scope", "$http", "storeFactory", function (
     $scope.GetDiscountSchemes();
 
     $scope.CalculateOrder = function () {
+
+        var birthday = moment($scope.CustomerBirthday).format("MM-DD-YYYY");
+        if (birthday == "Invalid date") {
+            $scope.CustomerBirthday = '';
+        }
+
         var orderDetails = [];
         angular.forEach($scope.CartProducts, function (value) {
-            var product = { Name: value.Name, Price: value.Price, UniqueCode: value.UniqueCode };
-            var tmpOrderDetails = { Product: product, Quantity: value.Quantity };
-            orderDetails.push(tmpOrderDetails);
+            if (value.Quantity > 0) {
+                var product = { Name: value.Name, Price: value.Price, UniqueCode: value.UniqueCode };
+                var tmpOrderDetails = { Product: product, Quantity: value.Quantity };
+                orderDetails.push(tmpOrderDetails);
+            }
         });
 
         if (!orderDetails.length) {
             $scope.InvalidForm = true;
             return;
         };
-
-        var birthday = moment($scope.CustomerBirthday).format("MM-DD-YYYY");
+        
         var order = { OrderDetails: orderDetails, CustomerBirthday: birthday };
         var orderWithDiscountScheme = { Order: order, DiscountSchemeName: $scope.CurrentDiscountScheme };
 
