@@ -40,7 +40,7 @@
             <form name="orderForm" novalidate>
                 <label>Customer Birthday</label>
                 <input name="customerBirthday" type="date" ng-model="CustomerBirthday" />
-                @*<span ng-show="orderForm.customerBirthday.$error.date">Invalid input.</span>*@
+                <span ng-show="orderForm.customerBirthday.$error.date" class="label label-danger">Invalid input.</span>
                 <br />
 
                 <div ng-show="InvalidForm" class="alert alert-danger">Please select a product first!</div>
@@ -59,8 +59,9 @@
                             <td>{{product.Name}}</td>
                             <td>{{product.Price}}</td>
                             <td>
-                                <input name="quantity" type="number" ng-model="product.Quantity" min="1" max="9999" style="width: 50px;" maxlength="4" />
-                                <span ng-show="orderForm.quantity.$error.number">Invalid input.</span>
+                                <input name="quantity_{{$index}}" type="number" ng-model="product.Quantity" min="1" max="9999" style="width: 50px;" required />
+                                <span ng-show="orderForm.quantity_{{$index}}.$error.required" class="label label-danger">Required.</span>
+                                <span ng-show="orderForm.quantity_{{$index}}.$error.number" class="label label-danger">Invalid input.</span>
                             </td>
                             <td>
                                 <input type="button" ng-click="RemoveFromCart(product)" value="Remove from cart" />
@@ -70,7 +71,7 @@
                     </tbody>
 
                 </table>
-                <button ng-click="CalculateOrder()">Calculate Order</button>
+                <button ng-click="CalculateOrder()" ng-disabled="!CartProducts || !CartProducts.length || !orderForm.$valid">Calculate Order</button>
 
             </form>
         </div>

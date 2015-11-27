@@ -13,7 +13,6 @@ app.controller("StoreController", ["$scope", "$http", "storeFactory", function (
         var promise = storeFactory.getProducts();
         promise.then(function (data) {
             angular.forEach(data, function (value) {
-                value.IsSelected = false;
                 value.Quantity = 1;
             });
             $scope.Products = data;
