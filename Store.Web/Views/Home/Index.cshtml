@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div ng-controller="StoreController">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Product List</h2>
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Price</td>
+                        <td>Order</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in Products">
+                        <td>{{product.Name}}</td>
+                        <td>{{product.Price}}</td>
+                        <td>
+                            <input type="checkbox" ng-model="product.IsSelected" />
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Cart</h2>
+
+            <label>Select Current Discount Schemes</label>
+            <div ng-repeat="discountScheme in DiscountSchemes">
+                <input type="radio" name="chkDiscountScheme" ng-model="$parent.CurrentDiscountScheme" ng-value="discountScheme.Name" />{{discountScheme.Name}}
+            </div>
+            <br />
+
+            <label>Customer Birthday</label>
+            <input type="date" ng-model="CustomerBirthday" />
+            <br />
+
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Name</td>
+                        <td>Price</td>
+                        <td>Order</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in Products | filter:{IsSelected:true}">
+                        <td>
+                            <input type="checkbox" ng-model="product.IsSelected" /></td>
+                        <td>{{product.Name}}</td>
+                        <td>{{product.Price}}</td>
+                        <td>
+                            <input type="text" ng-model="product.Quantity" ng-show="product.IsSelected" style="width: 50px;" maxlength="2" />
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <button ng-click="CalculateOrder()">Calculate Order</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Calculated Order</h2>
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                        <td>Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="orderDetails in Order.OrderDetails">
+                        <td>{{orderDetails.Product.Name}}</td>
+                        <td>{{orderDetails.Product.Price}}</td>
+                        <td>{{orderDetails.Quantity}}</td>
+                        <td>{{orderDetails.Total}}</td>
+                    </tr>
+                    <tr>
+                        <td>SUB TOTAL</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{Order.TotalOrder}}</td>
+                    </tr>
+                    <tr>
+                        <td>DISCOUNT</td>
+                        <td>PERCENTAGE</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="discount in Order.Discounts">
+                        <td>{{discount.Name}}</td>
+                        <td>{{discount.EffectiveDiscount}}%</td>
+                        <td></td>
+                        <td>{{$parent.Order.TotalOrder * discount.EffectiveDiscount / 100 }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Total Discount</td>
+                        <td>{{Order.TotalDiscount}}%</td>
+                        <td></td>
+                        <td>{{Order.TotalDiscountAmount}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Total</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{Order.Total}}</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
