@@ -50,7 +50,7 @@
                         <tr>
                             <td>Name</td>
                             <td>Price</td>
-                            <td>Order</td>
+                            <td>Quantity</td>
                             <td>Remove</td>
                         </tr>
                     </thead>
@@ -59,8 +59,8 @@
                             <td>{{product.Name}}</td>
                             <td>{{product.Price}}</td>
                             <td>
-                                <input name="quantity" type="number" ng-model="product.Quantity" style="width: 50px;" maxlength="4" />
-                                <span ng-show="orderForm.quantity.$touched && orderForm.quantity.$error.number">Invalid input.</span>
+                                <input name="quantity" type="number" ng-model="product.Quantity" min="1" max="9999" style="width: 50px;" maxlength="4" />
+                                <span ng-show="orderForm.quantity.$error.number">Invalid input.</span>
                             </td>
                             <td>
                                 <input type="button" ng-click="RemoveFromCart(product)" value="Remove from cart" />
