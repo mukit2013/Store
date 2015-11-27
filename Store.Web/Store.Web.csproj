@@ -125,7 +125,10 @@
     <Content Include="Scripts\App\storeFactory.js" />
     <Content Include="Scripts\App\storeCtrl.js" />
     <Content Include="Scripts\Library\angular.min.js" />
+    <Content Include="Scripts\Library\datetimepicker.css" />
+    <Content Include="Scripts\Library\datetimepicker.js" />
     <Content Include="Scripts\Library\moment.min.js" />
+    <Content Include="Scripts\Library\ui-bootstrap-tpls.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

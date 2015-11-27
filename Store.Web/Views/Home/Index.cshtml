@@ -42,8 +42,22 @@
                 <div ng-show="InvalidForm || !orderForm.$valid" class="label label-danger">Please check your input!</div>
                 <br />
 
-                <label>Customer Birthday</label>
-                <input name="customerBirthday" type="date" ng-model="CustomerBirthday" />
+                <div class="form-group col-md-4">
+                    <label>Customer Birthday</label>
+
+                    <div class="dropdown not-open">
+                        <a class="dropdown-toggle" id="ddCustomerBirthday" role="button" data-toggle="dropdown" data-target="#" href="#">
+                            <input readonly="readonly" id="customerBirthday" type="text" class="form-control" data-ng-model="CustomerBirthday" style="background-color:#fff;" />
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker data-ng-model="CustomerBirthday"
+                                            data-on-set-time="onBirthdaySet(newDate, oldDate)"
+                                            data-datetimepicker-config="{ dropdownSelector: '#ddCustomerBirthday', minView: 'day' }">
+                            </datetimepicker>
+                        </ul>
+                    </div>
+                </div>
+
                 <br /><br /><br />
 
                 <table class="table table-condensed table-bordered">

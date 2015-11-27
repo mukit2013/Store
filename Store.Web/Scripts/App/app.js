@@ -1,2 +1,2 @@
 ﻿
-var app = angular.module("store", []);
+var app = angular.module("store", ['ui.bootstrap', 'ui.bootstrap.datetimepicker']);

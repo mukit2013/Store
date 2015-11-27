@@ -80,5 +80,9 @@ app.controller("StoreController", ["$scope", "$http", "storeFactory", function (
         }
     };
 
+    $scope.onBirthdaySet = function (newDate, oldDate) {
+        $scope.CustomerBirthday = moment(newDate).format("MM-DD-YYYY");
+    }
+
 }]);
 
