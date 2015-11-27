@@ -12,7 +12,7 @@
                     <tr>
                         <td>Name</td>
                         <td>Price</td>
-                        <td>Order</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,7 +20,7 @@
                         <td>{{product.Name}}</td>
                         <td>{{product.Price}}</td>
                         <td>
-                            <input type="checkbox" ng-model="product.IsSelected" />
+                            <input type="button" ng-click="AddToCart(product)" value="Add to cart" />
                         </td>
                     </tr>
                 </tbody>
@@ -37,33 +37,42 @@
             </div>
             <br />
 
-            <label>Customer Birthday</label>
-            <input type="date" ng-model="CustomerBirthday" />
-            <br />
+            <form name="orderForm" novalidate>
+                <label>Customer Birthday</label>
+                <input name="customerBirthday" type="date" ng-model="CustomerBirthday" />
+                @*<span ng-show="orderForm.customerBirthday.$error.date">Invalid input.</span>*@
+                <br />
 
-            <table class="table table-condensed table-bordered">
-                <thead>
-                    <tr>
-                        <td></td>
-                        <td>Name</td>
-                        <td>Price</td>
-                        <td>Order</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="product in Products | filter:{IsSelected:true}">
-                        <td>
-                            <input type="checkbox" ng-model="product.IsSelected" /></td>
-                        <td>{{product.Name}}</td>
-                        <td>{{product.Price}}</td>
-                        <td>
-                            <input type="text" ng-model="product.Quantity" ng-show="product.IsSelected" style="width: 50px;" maxlength="2" />
-                        </td>
-                    </tr>
-                </tbody>
+                <div ng-show="InvalidForm" class="alert alert-danger">Please select a product first!</div>
 
-            </table>
-            <button ng-click="CalculateOrder()">Calculate Order</button>
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Price</td>
+                            <td>Order</td>
+                            <td>Remove</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="product in CartProducts">
+                            <td>{{product.Name}}</td>
+                            <td>{{product.Price}}</td>
+                            <td>
+                                <input name="quantity" type="number" ng-model="product.Quantity" style="width: 50px;" maxlength="4" />
+                                <span ng-show="orderForm.quantity.$touched && orderForm.quantity.$error.number">Invalid input.</span>
+                            </td>
+                            <td>
+                                <input type="button" ng-click="RemoveFromCart(product)" value="Remove from cart" />
+
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <button ng-click="CalculateOrder()">Calculate Order</button>
+
+            </form>
         </div>
     </div>
 
@@ -118,9 +127,7 @@
                         <td></td>
                         <td>{{Order.Total}}</td>
                     </tr>
-
                 </tbody>
-
             </table>
         </div>
     </div>

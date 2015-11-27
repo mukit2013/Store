@@ -1,11 +1,13 @@
 ﻿
 app.controller("StoreController", ["$scope", "$http", "storeFactory", function ($scope, $http, storeFactory) {
     $scope.Products = [];
+    $scope.CartProducts = [];
     $scope.Order = {};
     $scope.Order.OrderDetails = [];
     $scope.DiscountSchemes = [];
     $scope.CurrentDiscountScheme = '';
     $scope.CustomerBirthday = '';
+    $scope.InvalidForm = false;
 
     $scope.GetProducts = function () {
         var promise = storeFactory.getProducts();
@@ -30,13 +32,16 @@ app.controller("StoreController", ["$scope", "$http", "storeFactory", function (
 
     $scope.CalculateOrder = function () {
         var orderDetails = [];
-        angular.forEach($scope.Products, function (value) {
-            if (value.IsSelected) {
-                var product = { Name: value.Name, Price: value.Price, UniqueCode: value.UniqueCode };
-                var tmpOrderDetails = { Product: product, Quantity: value.Quantity };
-                orderDetails.push(tmpOrderDetails);
-            }
+        angular.forEach($scope.CartProducts, function (value) {
+            var product = { Name: value.Name, Price: value.Price, UniqueCode: value.UniqueCode };
+            var tmpOrderDetails = { Product: product, Quantity: value.Quantity };
+            orderDetails.push(tmpOrderDetails);
         });
+
+        if (!orderDetails.length) {
+            $scope.InvalidForm = true;
+            return;
+        };
 
         var birthday = moment($scope.CustomerBirthday).format("MM-DD-YYYY");
         var order = { OrderDetails: orderDetails, CustomerBirthday: birthday };
@@ -48,6 +53,26 @@ app.controller("StoreController", ["$scope", "$http", "storeFactory", function (
         });
     };
 
+    $scope.AddToCart = function (product) {
+
+        var index = $.inArray(product, $scope.CartProducts);
+        if (index > -1) {
+            var tmpProduct = $scope.CartProducts[index];
+            tmpProduct.Quantity = tmpProduct.Quantity + 1;
+        }
+        else {
+            $scope.CartProducts.push(product);
+        }
+    };
+
+    $scope.RemoveFromCart = function (product) {
+
+        var index = $.inArray(product, $scope.CartProducts);
+        if (index > -1) {
+            product.Quantity = 1;
+            $scope.CartProducts.splice(index, 1);
+        }
+    };
 
 }]);
 
